@@ -9,7 +9,7 @@ setup: .venv
 install: .venv
 	$(VPATH)pip install $(pkg) && $(VPATH)pip freeze > requirements.txt;
 
-hello: .venv
-	echo "print('hello world')" | $(VPATH)python
+train:
+	@$(VPATH)python train.py
 
-.PHONY: hello install setup
+.PHONY: install setup train
