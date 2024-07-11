@@ -10,6 +10,6 @@ install: .venv
 	$(VPATH)pip install $(pkg) && $(VPATH)pip freeze > requirements.txt;
 
 train:
-	@$(VPATH)python train.py
+	@$(VPATH)python train.py || true
 
 .PHONY: install setup train
