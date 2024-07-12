@@ -24,7 +24,15 @@ def main():
         if np.all(abs(step_size) < MIN_STEP):
             break
         thetha -= step_size
-    print(f'0 = {thetha[0]} | 1 = {thetha[1]}')  # Save to file afterwards
+
+    # Save thetha to file
+    try:
+        file = open('thetha.bin', 'wb')
+    except Exception as e:
+        print(e, file=sys.stderr)
+        exit(1)
+    thetha.tofile(file)
+    file.close()
 
 
 def calculate_gradient(data, thetha):
