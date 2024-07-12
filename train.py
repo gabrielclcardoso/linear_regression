@@ -16,26 +16,25 @@ def main():
         exit(1)
 
     # Perform gradien descent
-    thetha = np.array([0.0, 1])
-    step_size = np.array([0.0, 0])
+    thetha = np.array([0, 1], dtype=np.float64)
+    step_size = np.array([0, 0], dtype=np.float64)
     for iteration in range(int(MAX_ITERATIONS)):
         gradient = calculate_gradient(data, thetha)
-        step_size[0] = LEARNING_RATE * gradient[0]
-        step_size[1] = LEARNING_RATE * gradient[1]
+        step_size = gradient * LEARNING_RATE
         if np.any(step_size < MIN_STEP):
             break
-        thetha[0] -= step_size[0]
-        thetha[1] -= step_size[1]
+        thetha -= step_size
     print(f'0 = {thetha[0]} | 1 = {thetha[1]}')  # Save to file afterwards
 
 
 def calculate_gradient(data, thetha):
-    gradient = np.array([0.0, 0])
+    gradient = np.array([0, 0], dtype=np.float64)
     for car in data.itertuples():
         estimated_price = thetha[0] + thetha[1] * car.km
         gradient[0] += estimated_price - car.price
         gradient[1] += (estimated_price - car.price) * car.km
-    return (gradient / len(data.index))
+    gradient /= len(data.index)
+    return gradient
 
 
 if __name__ == '__main__':
