@@ -12,4 +12,7 @@ install: .venv
 train:
 	@$(VPATH)python train.py || true
 
+predict:
+	@$(VPATH)python predict.py || true
+
 .PHONY: install setup train
