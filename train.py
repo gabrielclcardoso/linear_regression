@@ -3,6 +3,7 @@ import numpy as np
 import sys
 
 import plot as plot
+import standardization as std
 
 MIN_STEP = 1e-6  # What value should be put here?
 MAX_ITERATIONS = 1e4  # What value shoud be put here?
@@ -15,9 +16,8 @@ def main():
     raw_canvas, std_canvas = plot.get_canvases(2)
     plot.draw_scatter(raw_canvas, data)
 
-    mean = data.mean()
-    std_deviation = data.std()
-    standardize_data(data, mean, std_deviation)
+    mean, std_deviation = std.get_mean_and_deviation(data)
+    std.standardize(data, mean, std_deviation)
     plot.draw_scatter(std_canvas, data)
 
     coefficients = gradient_descent(data)
@@ -36,11 +36,6 @@ def read_data():
     except Exception as e:
         print(e, file=sys.stderr)
         exit(1)
-
-
-def standardize_data(data, mean, std_deviation):
-    for col in data.columns:
-        data[col] = (data[col] - mean[col]) / std_deviation[col]
 
 
 def gradient_descent(data):
