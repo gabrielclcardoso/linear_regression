@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
 
 import plot as plot
 
@@ -13,7 +12,7 @@ LEARNING_RATE = 0.001  # What value shoud be put here?
 def main():
     data = read_data()
 
-    raw_canvas, std_canvas = get_canvases()
+    raw_canvas, std_canvas = plot.get_canvases(2)
     plot.draw_scatter(raw_canvas, data)
 
     mean = data.mean()
@@ -37,11 +36,6 @@ def read_data():
     except Exception as e:
         print(e, file=sys.stderr)
         exit(1)
-
-
-def get_canvases():
-    fig, canvas_list = plt.subplots(1, 2)
-    return canvas_list
 
 
 def standardize_data(data, mean, std_deviation):
