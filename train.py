@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import sys
 
+import plot as plot
+
 MIN_STEP = 1e-3  # What value should be put here?
 MAX_ITERATIONS = 1e4  # What value shoud be put here?
 LEARNING_RATE = 0.0000000001  # What value shoud be put here?
@@ -9,8 +11,11 @@ LEARNING_RATE = 0.0000000001  # What value shoud be put here?
 
 def main():
     data = read_data()
+    plot.scatter(data)
     coefficients = gradient_descent(data)
+    plot.line(*coefficients)
     save_coefficients(coefficients)
+    plot.draw()
 
 
 def read_data():
