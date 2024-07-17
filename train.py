@@ -14,6 +14,8 @@ def main():
 
 
 def read_data():
+    """Read and return the dataset from the data.csv file."""
+
     try:
         data = pd.read_csv('data.csv')
         return data
@@ -23,6 +25,11 @@ def read_data():
 
 
 def gradient_descent(data):
+    """
+    Performs gradient descent on the given data and returns the resulting
+    coefficients. The intercept is stored on coefficient[0].
+    """
+
     coefficients = np.array([0, 1], dtype=np.float64)
     step_size = np.array([0, 0], dtype=np.float64)
     for iteration in range(int(MAX_ITERATIONS)):
@@ -35,6 +42,11 @@ def gradient_descent(data):
 
 
 def calculate_gradient(data, coefficients):
+    """
+    Calculates gradient for the MSE function with the given coefficients.
+    Uses coefficients[0] for the intercept.
+    """
+
     gradient = np.array([0, 0], dtype=np.float64)
     for car in data.itertuples():
         estimated_price = coefficients[0] + coefficients[1] * car.km
@@ -45,6 +57,8 @@ def calculate_gradient(data, coefficients):
 
 
 def save_coefficients(coefficients):
+    """Save coefficient values into binary file."""
+
     try:
         file = open('coefficients.bin', 'wb')
     except Exception as e:
