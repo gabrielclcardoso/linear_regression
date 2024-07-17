@@ -9,8 +9,8 @@ LEARNING_RATE = 0.0000000001  # What value shoud be put here?
 
 def main():
     data = read_data()
-    thetha = gradient_descent(data)
-    save_thetha(thetha)
+    coefficients = gradient_descent(data)
+    save_coefficients(coefficients)
 
 
 def read_data():
@@ -23,34 +23,34 @@ def read_data():
 
 
 def gradient_descent(data):
-    thetha = np.array([0, 1], dtype=np.float64)
+    coefficients = np.array([0, 1], dtype=np.float64)
     step_size = np.array([0, 0], dtype=np.float64)
     for iteration in range(int(MAX_ITERATIONS)):
-        gradient = calculate_gradient(data, thetha)
+        gradient = calculate_gradient(data, coefficients)
         step_size = gradient * LEARNING_RATE
         if np.all(abs(step_size) < MIN_STEP):
             break
-        thetha -= step_size
-    return thetha
+        coefficients -= step_size
+    return coefficients
 
 
-def calculate_gradient(data, thetha):
+def calculate_gradient(data, coefficients):
     gradient = np.array([0, 0], dtype=np.float64)
     for car in data.itertuples():
-        estimated_price = thetha[0] + thetha[1] * car.km
+        estimated_price = coefficients[0] + coefficients[1] * car.km
         gradient[0] += estimated_price - car.price
         gradient[1] += (estimated_price - car.price) * car.km
     gradient /= len(data.index)
     return gradient
 
 
-def save_thetha(thetha):
+def save_coefficients(coefficients):
     try:
-        file = open('thetha.bin', 'wb')
+        file = open('coefficients.bin', 'wb')
     except Exception as e:
         print(e, file=sys.stderr)
         exit(1)
-    thetha.tofile(file)
+    coefficients.tofile(file)
     file.close()
 
 

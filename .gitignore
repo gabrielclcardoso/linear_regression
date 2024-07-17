@@ -1,5 +1,5 @@
 # Trained model variables
-thetha.bin
+coefficients.bin
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
