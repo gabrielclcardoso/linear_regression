@@ -1,19 +1,17 @@
 import matplotlib.pyplot as plt
 
 
-def scatter(data):
+def draw_scatter(ax, data):
     x_points = data.km.tolist()
     y_points = data.price.tolist()
 
-    fig, ax = plt.subplots()
     ax.scatter(x_points, y_points)
     ax.grid(True)
 
 
-def line(intercept, coefficient):
-    fig, ax = plt.subplots()
+def draw_line(ax, intercept, coefficient):
     ax.axline((0, intercept), slope=coefficient)
 
 
-def draw():
+def display():
     plt.show()

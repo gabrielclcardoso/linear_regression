@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
 
 import plot as plot
 
@@ -11,18 +12,20 @@ LEARNING_RATE = 0.001  # What value shoud be put here?
 
 def main():
     data = read_data()
-    plot.scatter(data)
+
+    raw_canvas, std_canvas = get_canvases()
+    plot.draw_scatter(raw_canvas, data)
 
     mean = data.mean()
     std_deviation = data.std()
     standardize_data(data, mean, std_deviation)
-    plot.scatter(data)
+    plot.draw_scatter(std_canvas, data)
 
     coefficients = gradient_descent(data)
-    plot.line(*coefficients)
+    plot.draw_line(std_canvas, *coefficients)
 
     save_coefficients(coefficients)
-    plot.draw()
+    plot.display()
 
 
 def read_data():
@@ -34,6 +37,11 @@ def read_data():
     except Exception as e:
         print(e, file=sys.stderr)
         exit(1)
+
+
+def get_canvases():
+    fig, canvas_list = plt.subplots(1, 2)
+    return canvas_list
 
 
 def standardize_data(data, mean, std_deviation):
