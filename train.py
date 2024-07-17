@@ -4,16 +4,23 @@ import sys
 
 import plot as plot
 
-MIN_STEP = 1e-3  # What value should be put here?
+MIN_STEP = 1e-6  # What value should be put here?
 MAX_ITERATIONS = 1e4  # What value shoud be put here?
-LEARNING_RATE = 0.0000000001  # What value shoud be put here?
+LEARNING_RATE = 0.001  # What value shoud be put here?
 
 
 def main():
     data = read_data()
     plot.scatter(data)
+
+    mean = data.mean()
+    std_deviation = data.std()
+    standardize_data(data, mean, std_deviation)
+    plot.scatter(data)
+
     coefficients = gradient_descent(data)
     plot.line(*coefficients)
+
     save_coefficients(coefficients)
     plot.draw()
 
@@ -27,6 +34,11 @@ def read_data():
     except Exception as e:
         print(e, file=sys.stderr)
         exit(1)
+
+
+def standardize_data(data, mean, std_deviation):
+    for col in data.columns:
+        data[col] = (data[col] - mean[col]) / std_deviation[col]
 
 
 def gradient_descent(data):
