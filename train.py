@@ -8,14 +8,21 @@ LEARNING_RATE = 0.0000000001  # What value shoud be put here?
 
 
 def main():
-    # Read Database
+    data = read_data()
+    thetha = gradient_descent(data)
+    save_thetha(thetha)
+
+
+def read_data():
     try:
         data = pd.read_csv('data.csv')
+        return data
     except Exception as e:
         print(e, file=sys.stderr)
         exit(1)
 
-    # Perform gradien descent
+
+def gradient_descent(data):
     thetha = np.array([0, 1], dtype=np.float64)
     step_size = np.array([0, 0], dtype=np.float64)
     for iteration in range(int(MAX_ITERATIONS)):
@@ -24,15 +31,7 @@ def main():
         if np.all(abs(step_size) < MIN_STEP):
             break
         thetha -= step_size
-
-    # Save thetha to file
-    try:
-        file = open('thetha.bin', 'wb')
-    except Exception as e:
-        print(e, file=sys.stderr)
-        exit(1)
-    thetha.tofile(file)
-    file.close()
+    return thetha
 
 
 def calculate_gradient(data, thetha):
@@ -43,6 +42,16 @@ def calculate_gradient(data, thetha):
         gradient[1] += (estimated_price - car.price) * car.km
     gradient /= len(data.index)
     return gradient
+
+
+def save_thetha(thetha):
+    try:
+        file = open('thetha.bin', 'wb')
+    except Exception as e:
+        print(e, file=sys.stderr)
+        exit(1)
+    thetha.tofile(file)
+    file.close()
 
 
 if __name__ == '__main__':
