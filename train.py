@@ -22,6 +22,8 @@ def main():
 
     coefficients = gradient_descent(data)
     plot.draw_line(std_canvas, *coefficients)
+    std.rescale_coefficients(coefficients, mean, std_deviation)
+    plot.draw_line(raw_canvas, *coefficients)
 
     save_coefficients(coefficients)
     plot.display()
