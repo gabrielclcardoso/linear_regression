@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import cm
 
 
 def get_canvases(titles, subplot_kw=None):
@@ -43,7 +44,7 @@ def draw_surface(ax, data):
     coefficients = np.arange(-2, 2, 0.1)
     intercepts, coefficients = np.meshgrid(intercepts, coefficients)
     loss = mean_squared_error(intercepts, coefficients, data)
-    ax.plot_surface(intercepts, coefficients, loss)
+    ax.plot_surface(intercepts, coefficients, loss, cmap=cm.Blues, alpha=0.8)
 
 
 def mean_squared_error(intercept, coefficient, data):
@@ -52,6 +53,10 @@ def mean_squared_error(intercept, coefficient, data):
         estimated_price = intercept + coefficient * car.km
         squared_error += (car.price - estimated_price) ** 2
     return squared_error / len(data.index)
+
+
+def draw_point(ax, x, y, z):
+    ax.scatter(x, y, z, color='black', s=10)
 
 
 def display():
