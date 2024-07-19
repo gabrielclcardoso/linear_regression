@@ -13,7 +13,8 @@ LEARNING_RATE = 0.001  # What value shoud be put here?
 def main():
     data = read_data()
 
-    raw_canvas, std_canvas = plot.get_canvases(2)
+    raw_canvas, std_canvas = plot.get_canvases(
+        ["Raw data", "Standardized data"])
     plot.draw_scatter(raw_canvas, data)
 
     mean, std_deviation = std.get_mean_and_deviation(data)
