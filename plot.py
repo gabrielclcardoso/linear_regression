@@ -1,12 +1,19 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-def get_canvases(titles):
-    """Construct n canvases to build plots with."""
+def get_canvases(titles, subplot_kw=None):
+    """Construct an image with canvases to build plots with."""
 
-    fig, canvas_list = plt.subplots(1, len(titles))
+    fig, canvas_list = plt.subplots(1, len(titles), subplot_kw=subplot_kw)
+
+    if len(titles) == 1:
+        canvas_list.set_title(titles[0])
+        return canvas_list
+
     for canvas, title in zip(canvas_list, titles):
         canvas.set_title(title)
+
     return canvas_list
 
 
@@ -29,6 +36,22 @@ def draw_line(ax, intercept, coefficient):
         color='orange'
     )
     ax.legend()
+
+
+def draw_surface(ax, data):
+    intercepts = np.arange(-2, 2, 0.1)
+    coefficients = np.arange(-2, 2, 0.1)
+    intercepts, coefficients = np.meshgrid(intercepts, coefficients)
+    loss = mean_squared_error(intercepts, coefficients, data)
+    ax.plot_surface(intercepts, coefficients, loss)
+
+
+def mean_squared_error(intercept, coefficient, data):
+    squared_error = 0
+    for car in data.itertuples():
+        estimated_price = intercept + coefficient * car.km
+        squared_error += (car.price - estimated_price) ** 2
+    return squared_error / len(data.index)
 
 
 def display():

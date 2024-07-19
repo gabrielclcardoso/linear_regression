@@ -15,11 +15,14 @@ def main():
 
     raw_canvas, std_canvas = plot.get_canvases(
         ["Raw data", "Standardized data"])
+    loss_canvas = plot.get_canvases(["Loss function"], {"projection": "3d"})
+
     plot.draw_scatter(raw_canvas, data)
 
     mean, std_deviation = std.get_mean_and_deviation(data)
     std.standardize(data, mean, std_deviation)
     plot.draw_scatter(std_canvas, data)
+    plot.draw_surface(loss_canvas, data)
 
     coefficients = gradient_descent(data)
     plot.draw_line(std_canvas, *coefficients)
