@@ -50,7 +50,9 @@ def predict_value(coefficients):
         if km < 0:
             print("Error: A car's km can't be negative", file=sys.stderr)
         else:
-            value = coefficients[0] + coefficients[1] * km
+            value = int(coefficients[0] + coefficients[1] * km)
+            if (value < 0):
+                value = 0
             print(f"The predicted value for the car is {value}")
 
 
