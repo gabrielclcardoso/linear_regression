@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
 
+from regression import mean_squared_error
+
 
 def get_canvases(titles, subplot_kw=None):
     """Construct an image with canvases to build plots with."""
@@ -47,15 +49,10 @@ def draw_surface(ax, data):
     ax.plot_surface(intercepts, coefficients, loss, cmap=cm.Blues, alpha=0.8)
 
 
-def mean_squared_error(intercept, coefficient, data):
-    squared_error = 0
-    for car in data.itertuples():
-        estimated_price = intercept + coefficient * car.km
-        squared_error += (car.price - estimated_price) ** 2
-    return squared_error / len(data.index)
-
-
-def draw_point(ax, x, y, z):
+def draw_trail(ax, trail):
+    x = np.array(trail[0])
+    y = np.array(trail[1])
+    z = np.array(trail[2])
     ax.scatter(x, y, z, color='black', s=10)
 
 
