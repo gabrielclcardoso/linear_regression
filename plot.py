@@ -46,14 +46,20 @@ def draw_surface(ax, data):
     coefficients = np.arange(-2, 2, 0.1)
     intercepts, coefficients = np.meshgrid(intercepts, coefficients)
     loss = mean_squared_error(intercepts, coefficients, data)
-    ax.plot_surface(intercepts, coefficients, loss, cmap=cm.Blues, alpha=0.8)
+    ax.set_xlabel("Intercept")
+    ax.set_ylabel("Coefficient")
+    ax.set_zlabel("MSE")
+    ax.plot_surface(intercepts, coefficients, loss, cmap=cm.Blues, alpha=0.8,
+                    label="MSE surface")
+    ax.legend()
 
 
 def draw_trail(ax, trail):
     x = np.array(trail[0])
     y = np.array(trail[1])
     z = np.array(trail[2])
-    ax.scatter(x, y, z, color='black', s=10)
+    ax.scatter(x, y, z, color='black', s=10, label="Gradient descent trail")
+    ax.legend()
 
 
 def display():
