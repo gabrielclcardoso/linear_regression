@@ -7,29 +7,29 @@ from regression import gradient_descent
 
 
 def main():
-    data = read_data()
+    raw_data = read_data()
 
     raw_canvas, std_canvas = plot.get_canvases(
         ["Raw data", "Standardized data"])
     loss_canvas = plot.get_canvases(
         ["Loss function"], {"projection": "3d", "computed_zorder": False})
 
-    plot.draw_scatter(raw_canvas, data)
+    plot.draw_scatter(raw_canvas, raw_data)
 
-    mean, std_deviation = std.get_mean_and_deviation(data)
-    std.standardize(data, mean, std_deviation)
+    std_data = std.standardize(raw_data)
 
-    plot.draw_scatter(std_canvas, data)
-    plot.draw_surface(loss_canvas, data)
+    plot.draw_scatter(std_canvas, std_data)
+    plot.draw_surface(loss_canvas, std_data)
 
-    coefficients, trail = gradient_descent(data, loss_canvas)
+    coefficients, trail = gradient_descent(std_data, loss_canvas)
     plot.draw_trail(loss_canvas, trail)
     plot.draw_line(std_canvas, *coefficients)
 
-    std.rescale_coefficients(coefficients, mean, std_deviation)
-    plot.draw_line(raw_canvas, *coefficients)
+    rescaled_coefficients = std.rescale_coefficients(
+        coefficients, raw_data.mean(), raw_data.std())
+    plot.draw_line(raw_canvas, *rescaled_coefficients)
 
-    save_coefficients(coefficients)
+    save_coefficients(rescaled_coefficients)
     plot.display()
 
 
