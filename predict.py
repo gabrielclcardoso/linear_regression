@@ -45,7 +45,7 @@ def predict_value(coefficients):
                 exit(0)
             print(f"Error: {user_input} is not a number", file=sys.stderr)
             continue
-        except KeyboardInterrupt:
+        except (KeyboardInterrupt, EOFError):
             exit(0)
         if km < 0:
             print("Error: A car's km can't be negative", file=sys.stderr)
