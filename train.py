@@ -1,17 +1,16 @@
 import pandas as pd
 import sys
 
-import standardization as std
+import regression as regr
 from plot import draw_plots
-from regression import gradient_descent
 
 
 def main():
     raw_data = read_data()
-    std_data = std.standardize(raw_data)
+    std_data = regr.standardize(raw_data)
 
-    coefficients, trail = gradient_descent(std_data)
-    rescaled_coefficients = std.rescale_coefficients(
+    coefficients, trail = regr.gradient_descent(std_data)
+    rescaled_coefficients = regr.rescale_coefficients(
         coefficients, raw_data.mean(), raw_data.std())
 
     save_coefficients(rescaled_coefficients)
