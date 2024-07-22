@@ -5,6 +5,17 @@ from matplotlib import cm
 from regression import mean_squared_error
 
 
+def draw_plots(raw_data, std_data, raw_coeff, std_coeff, trail):
+    raw_canvas, std_canvas = get_canvases(["Raw data", "Standardized data"])
+    loss_canvas = get_canvases(
+        ["Loss function"], {"projection": "3d", "computed_zorder": False})
+
+    draw_linear_regression(raw_canvas, raw_data, raw_coeff)
+    draw_linear_regression(std_canvas, std_data, std_coeff)
+    draw_loss_surface(loss_canvas, std_data, trail)
+    plt.show()
+
+
 def get_canvases(titles, subplot_kw=None):
     """Construct an image with canvases to build plots with."""
 
@@ -16,8 +27,19 @@ def get_canvases(titles, subplot_kw=None):
 
     for canvas, title in zip(canvas_list, titles):
         canvas.set_title(title)
-
     return canvas_list
+
+
+def draw_linear_regression(canvas, data, coefficients):
+    draw_scatter(canvas, data)
+    draw_line(canvas, *coefficients)
+    canvas.legend()
+
+
+def draw_loss_surface(canvas, data, trail):
+    draw_surface(canvas, data)
+    draw_trail(canvas, trail)
+    canvas.legend()
 
 
 def draw_scatter(ax, data):
@@ -30,7 +52,6 @@ def draw_scatter(ax, data):
     ax.set_xlabel(data.columns[0])
     ax.set_ylabel(data.columns[1])
     ax.grid(True)
-    ax.legend()
 
 
 def draw_line(ax, intercept, coefficient):
@@ -38,7 +59,6 @@ def draw_line(ax, intercept, coefficient):
         (0, intercept), slope=coefficient, label='Regression line',
         color='orange'
     )
-    ax.legend()
 
 
 def draw_surface(ax, data):
@@ -51,7 +71,6 @@ def draw_surface(ax, data):
     ax.set_zlabel("MSE")
     ax.plot_surface(intercepts, coefficients, loss, label="MSE surface",
                     cmap=cm.Blues, zorder=0)
-    ax.legend()
 
 
 def draw_trail(ax, trail):
@@ -60,8 +79,3 @@ def draw_trail(ax, trail):
     z = np.array(trail[2])
     ax.scatter(x, y, z, color='black', zorder=1,
                label="Gradient descent trail")
-    ax.legend()
-
-
-def display():
-    plt.show()

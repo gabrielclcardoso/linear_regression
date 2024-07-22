@@ -5,7 +5,7 @@ MAX_ITERATIONS = 1e5
 LEARNING_RATE = 0.01
 
 
-def gradient_descent(data, loss_canvas):
+def gradient_descent(data):
     """
     Performs gradient descent on the given data and returns the resulting
     coefficients. The intercept is stored on coefficient[0].
