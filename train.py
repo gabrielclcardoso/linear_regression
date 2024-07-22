@@ -15,7 +15,8 @@ def main():
 
     raw_canvas, std_canvas = plot.get_canvases(
         ["Raw data", "Standardized data"])
-    loss_canvas = plot.get_canvases(["Loss function"], {"projection": "3d"})
+    loss_canvas = plot.get_canvases(
+        ["Loss function"], {"projection": "3d", "computed_zorder": False})
 
     plot.draw_scatter(raw_canvas, data)
 
