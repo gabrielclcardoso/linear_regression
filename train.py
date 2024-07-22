@@ -5,10 +5,6 @@ import plot as plot
 import standardization as std
 from regression import gradient_descent
 
-MIN_STEP = 1e-6  # What value should be put here?
-MAX_ITERATIONS = 1e4  # What value shoud be put here?
-LEARNING_RATE = 0.001  # What value shoud be put here?
-
 
 def main():
     data = read_data()

@@ -1,8 +1,8 @@
 import numpy as np
 
-MIN_STEP = 1e-6  # What value should be put here?
-MAX_ITERATIONS = 1e4  # What value shoud be put here?
-LEARNING_RATE = 0.001  # What value shoud be put here?
+MIN_STEP = 1e-6
+MAX_ITERATIONS = 1e5
+LEARNING_RATE = 0.01
 
 
 def gradient_descent(data, loss_canvas):
@@ -19,7 +19,7 @@ def gradient_descent(data, loss_canvas):
         step_size = gradient * LEARNING_RATE
         if np.all(abs(step_size) < MIN_STEP):
             break
-        if iteration % 500 == 0:
+        if iteration % 100 == 0:
             x.append(coefficients[0])
             y.append(coefficients[1])
             z.append(mean_squared_error(
