@@ -14,6 +14,7 @@ def main():
         coefficients, raw_data.mean(), raw_data.std())
 
     save_coefficients(rescaled_coefficients)
+    regr.print_score(rescaled_coefficients, raw_data)
     draw_plots(raw_data, std_data, rescaled_coefficients, coefficients, trail)
 
 

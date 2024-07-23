@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 MIN_STEP = 1e-6
 MAX_ITERATIONS = 1e5
@@ -56,9 +57,27 @@ def rescale_coefficients(coeff, mean, std_dev):
     return rescaled
 
 
+def print_score(coeff, data):
+    rmse = math.sqrt(mean_squared_error(coeff[0], coeff[1], data))
+    r_squared = coefficient_of_determination(coeff[0], coeff[1], data)
+    print(f'RMSE = {rmse}')
+    print(f'R Squared = {r_squared}')
+
+
 def mean_squared_error(intercept, coefficient, data):
     squared_error = 0
     for car in data.itertuples():
         estimated_price = intercept + coefficient * car.km
         squared_error += (car.price - estimated_price) ** 2
     return squared_error / len(data.index)
+
+
+def coefficient_of_determination(intercept, coefficient, data):
+    predicted_sum = 0
+    mean_sum = 0
+
+    for car in data.itertuples():
+        estimated_price = intercept + coefficient * car.km
+        predicted_sum += (car.price - estimated_price) ** 2
+        mean_sum += (car.price - data.price.mean()) ** 2
+    return (1 - (predicted_sum / mean_sum))
