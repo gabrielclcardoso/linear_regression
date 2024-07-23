@@ -9,23 +9,27 @@ LEARNING_RATE = 0.01
 def gradient_descent(data):
     """
     Performs gradient descent on the given data and returns the resulting
-    coefficients. The intercept is stored on coefficient[0].
+    coefficients and a trail of points that the gradient descent passed by.
+    The intercept is stored on coefficient[0].
     """
 
     coefficients = np.array([0, 1], dtype=np.float64)
     step_size = np.array([0, 0], dtype=np.float64)
     x, y, z = [], [], []
+
     for iteration in range(int(MAX_ITERATIONS)):
         gradient = calculate_gradient(data, coefficients)
         step_size = gradient * LEARNING_RATE
         if np.all(abs(step_size) < MIN_STEP):
             break
+        coefficients -= step_size
+
         if iteration % 100 == 0:
             x.append(coefficients[0])
             y.append(coefficients[1])
             z.append(mean_squared_error(
                 coefficients[0], coefficients[1], data))
-        coefficients -= step_size
+
     trail = [x, y, z]
     return coefficients, trail
 
@@ -37,6 +41,7 @@ def calculate_gradient(data, coefficients):
     """
 
     gradient = np.array([0, 0], dtype=np.float64)
+
     for car in data.itertuples():
         estimated_price = coefficients[0] + coefficients[1] * car.km
         gradient[0] += estimated_price - car.price
